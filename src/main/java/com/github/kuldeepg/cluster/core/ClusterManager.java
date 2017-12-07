@@ -1,8 +1,11 @@
 package com.github.kuldeepg.cluster.core;
 
-import org.springframework.jms.listener.AbstractMessageListenerContainer;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
+import org.springframework.jmx.support.ObjectNameManager;
 import org.springframework.scheduling.annotation.Scheduled;
+
+import javax.management.*;
+import java.lang.management.ManagementFactory;
 
 public class ClusterManager {
 
@@ -22,6 +25,18 @@ public class ClusterManager {
   public void run() {
     stateManager.process();
     evictionManager.process();
+  }
+
+  @Scheduled(fixedDelay = 10000)
+  public void logLastConsumedTime() throws MalformedObjectNameException, AttributeNotFoundException, MBeanException, ReflectionException, InstanceNotFoundException {
+    ObjectName objectName = ObjectName.getInstance("org.springframework.integration:type=MessageChannel,name=com.github.kuldeepg.query.model.MessageCreatedEvent.channel");
+
+    Object lastSend = ManagementFactory.getPlatformMBeanServer()
+        .getAttribute(objectName, "TimeSinceLastSend");
+
+    System.out.println("===============");
+    System.out.println(lastSend);
+    System.out.println("===============");
   }
 
   public void reset() {

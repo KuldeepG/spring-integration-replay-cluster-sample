@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.management.MBeanServerFactory;
 import java.net.URI;
 
 import static java.time.Instant.now;
@@ -23,6 +24,7 @@ public class GreetingsController {
   @PostMapping("greeting")
   public ResponseEntity createGreeting(@RequestBody String message) {
     jmsTemplate.convertAndSend(new MessageCreatedEvent(message, now()));
+
     return ResponseEntity.created(URI.create("http://localhost:8080")).build();
   }
 

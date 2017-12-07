@@ -22,5 +22,7 @@ spring:
       settings:
         trace: false
         web-allow-others: true
+  jmx:
+    enabled: true
 server:
   port: 0

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import javax.management.MBeanServer;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 
